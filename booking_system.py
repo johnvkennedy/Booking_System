@@ -177,10 +177,10 @@ class Processor:
             best_choice = min(choice_list)
             if best_choice == 25:
                 print("Booking quote is flat rate $25 by Truck")
-                price = 25
+                price = 25.0
             if best_choice == 30:
                 print("Booking quote is flat rate $30 by Boat")
-                price = 30
+                price = 30.0
             if best_choice < 25:
                 words_1 = "Booking quote is ${} by Air"
                 print(words_1.format(air))
@@ -294,6 +294,21 @@ class Presentation:
         else:
             pass
 
+    @staticmethod
+    def display_master_list(big_list):
+        print("\tThis is a history of all booking quotes.\n"
+              "===================================================")
+        print("{:^18}".format("Name"), "{:^18}".format("Package Description"), "{:^18}".format("Dangerous"),
+              "{:^18}".format("Weight"), "{:^18}".format("Volume"), "{:^18}".format("Delivery Date"),
+              "{:^18}".format("Price"))
+        counter = 0
+        for row in big_list:
+            print("{:^18}".format(row["Name"]), "{:^18}".format(row["Package Description"]),
+                  "{:^18}".format(row["Dangerous"]), "{:^18}".format(row["Weight"]),
+                  "{:^18}".format(row["Volume"]), "{:^18}".format(row["Delivery Date"]),
+                  "{:^18}".format(row["Price"]))
+            counter += 1
+
 # Main Body of Script
 Processor.read_data_from_file_master_list()
 Presentation.today_date()
@@ -325,7 +340,7 @@ while True:
         Presentation.display_rules_and_prices()
 
     if strChoice.strip() == "3":
-        pass
+        Presentation.display_master_list(masterList)
 
     if strChoice.strip() == "4":
         print("Goodbye!")
