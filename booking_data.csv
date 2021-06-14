@@ -1,1 +1,5 @@
-Name,Package_Description,Dangerous,Weight,Volume,Delivery_Date
+Name,Package Description,Dangerous,Weight,Volume,Delivery Date,Price
+Bill,Big Box,no,3.0,24.0,10,480.0
+Bob,just box,no,5.0,10.0,6,200.0
+Janice,super box,no,2.0,60.0,6,1200.0
+CLair,super duper package,no,4.0,24.0,5,25

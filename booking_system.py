@@ -23,6 +23,7 @@
 # Imports
 import csv
 import datetime
+from csv import writer
 
 # Data
     # Storage
@@ -38,6 +39,7 @@ delDate = None
 length = None
 height = None
 width = None
+price = None
 
 
 # Processing
@@ -64,20 +66,31 @@ class Processor:
                 masterList.append(dicRow)
                 line_count += 1
 
+    @staticmethod
+    def append_to_master_file():
+        global name
+        global packageD
+        global dangerous
+        global weight
+        global volume
+        global delDate
+        dicRow = {"Name": name,
+                  "Package Description": packageD,
+                  "Dangerous": dangerous,
+                  "Weight": weight,
+                  "Volume": volume,
+                  "Delivery Date": delDate,
+                  "Price": price}
+        masterList.append(dicRow)
+
     # Takes data currently captured in the script and saves it to the CSV file.
     @staticmethod
-    def save_data_to_csv_file(data_list):
-        with open("booking_data.csv", mode="w") as csv_file:
-            fieldnames = ["Name",
-                          "Package Description",
-                          "Dangerous",
-                          "Weight",
-                          "Volume",
-                          "Delivery Date",
-                          "Price"]
-            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-            writer.writeheader()
-            writer.writerow(data_list)
+    def save_data_to_csv_file():
+        List_saving = [name, packageD, dangerous, weight, volume, delDate, price]
+        with open("booking_data.csv", mode="a") as f_object:
+            writer_object = writer(f_object)
+            writer_object.writerow(List_saving)
+            f_object.close()
             print("The file had been updated")
 
     # Captures name of package sender
@@ -144,27 +157,34 @@ class Processor:
 
     @staticmethod
     def calculate_best_bookings():
+        global price
         air_op1 = 10.0 * weight
         air_op2 = 20.0 * volume
         air_options = [air_op1, air_op2]
         air = max(air_options)
         if dangerous == "yes" and delDate < 3:
             print("Booking quote is flat rate $45 by Truck")
+            price = 45
         if dangerous == "yes" and delDate >= 3:
             print("Booking quote is flat rate $25 by Truck")
+            price = 25
         if dangerous == "no" and delDate < 3:
             words = "Booking quote is ${} by Air"
             print(words.format(air))
+            price = air
         if dangerous == "no" and delDate >= 3:
             choice_list = [air, 25, 30]
             best_choice = min(choice_list)
             if best_choice == 25:
                 print("Booking quote is flat rate $25 by Truck")
+                price = 25
             if best_choice == 30:
                 print("Booking quote is flat rate $30 by Boat")
-            elif best_choice != 25 or 30:
+                price = 30
+            if best_choice < 25:
                 words_1 = "Booking quote is ${} by Air"
                 print(words_1.format(air))
+                price = air
 
 
     @staticmethod
@@ -178,6 +198,7 @@ class Processor:
         global length
         global height
         global width
+        global price
         name = ""
         packageD = ""
         dangerous = ""
@@ -187,6 +208,7 @@ class Processor:
         length = None
         height = None
         width = None
+        price = None
 
 # Presentation
 
@@ -295,7 +317,8 @@ while True:
             else:
                 Processor.days_for_delivery()
                 Processor.calculate_best_bookings()
-                Processor.save_data_to_csv_file(masterList)
+                Processor.append_to_master_file()
+                Processor.save_data_to_csv_file()
                 Processor.reset()
 
     if strChoice.strip() == "2":
