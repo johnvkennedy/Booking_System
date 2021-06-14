@@ -59,7 +59,8 @@ class Processor:
                           "Dangerous": row["Dangerous"],
                           "Weight": row["Weight"],
                           "Volume": row["Volume"],
-                          "Delivery Date": row["Delivery Date"]}
+                          "Delivery Date": row["Delivery Date"],
+                          "Price": row["Price"]}
                 masterList.append(dicRow)
                 line_count += 1
 
@@ -72,14 +73,11 @@ class Processor:
                           "Dangerous",
                           "Weight",
                           "Volume",
-                          "Delivery Date"]
+                          "Delivery Date",
+                          "Price"]
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-
-            count = 0
             writer.writeheader()
-            while count < len(data_list) - 1:
-                writer.writerow(data_list[count])
-                count += 1
+            writer.writerow(data_list)
             print("The file had been updated")
 
     # Captures name of package sender
@@ -167,9 +165,6 @@ class Processor:
             elif best_choice != 25 or 30:
                 words_1 = "Booking quote is ${} by Air"
                 print(words_1.format(air))
-
-    @staticmethod
-    def save_booking
 
 
     @staticmethod
@@ -300,6 +295,7 @@ while True:
             else:
                 Processor.days_for_delivery()
                 Processor.calculate_best_bookings()
+                Processor.save_data_to_csv_file(masterList)
                 Processor.reset()
 
     if strChoice.strip() == "2":
