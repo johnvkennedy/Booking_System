@@ -23,7 +23,10 @@
 # Imports
 import csv
 import datetime
+import hashlib
 from csv import writer
+import random
+import string
 
 # Data
     # Storage
@@ -40,6 +43,7 @@ length = None
 height = None
 width = None
 price = None
+identification = None
 
 
 # Processing
@@ -62,7 +66,7 @@ class Processor:
                           "Weight": row["Weight"],
                           "Volume": row["Volume"],
                           "Days Until Delivery": row["Days Until Delivery"],
-                          "Price": row["Price"]}
+                          "Price": row["Price"], "Identification": row["Identification"]}
                 masterList.append(dicRow)
                 line_count += 1
 
@@ -84,7 +88,7 @@ class Processor:
                           "Weight": row["Weight"],
                           "Volume": row["Volume"],
                           "Days Until Delivery": row["Days Until Delivery"],
-                          "Price": row["Price"]}
+                          "Price": row["Price"], "Identification": row["Identification"]}
                 masterList.append(dicRow)
                 line_count += 1
 
@@ -96,22 +100,24 @@ class Processor:
         global weight
         global volume
         global delDate
-        dicRow = {"Name": name,
+        global identification
+        dic_row = {"Name": name,
                   "Package Description": packageD,
                   "Dangerous": dangerous,
                   "Weight": weight,
                   "Volume": volume,
                   "Day Until Delivery": delDate,
-                  "Price": price}
-        masterList.append(dicRow)
+                  "Price": price,
+                  "Identification": identification}
+        masterList.append(dic_row)
 
     # Takes data currently captured in the script and saves it to the CSV file.
     @staticmethod
     def save_data_to_csv_file():
-        List_saving = [name, packageD, dangerous, weight, volume, delDate, price]
+        list_saving = [name, packageD, dangerous, weight, volume, delDate, price, identification]
         with open("booking_data.csv", mode="a") as f_object:
             writer_object = writer(f_object)
-            writer_object.writerow(List_saving)
+            writer_object.writerow(list_saving)
             f_object.close()
             print("The file had been updated")
 
@@ -208,6 +214,11 @@ class Processor:
                 print(words_1.format(air))
                 price = air
 
+    @staticmethod
+    def id_number(length):
+        global identification
+        identification = ''.join(random.choice(string.ascii_letters) for i in range(length))
+        print(identification)
 
     @staticmethod
     def reset():
@@ -221,6 +232,7 @@ class Processor:
         global height
         global width
         global price
+        global identification
         name = ""
         packageD = ""
         dangerous = ""
@@ -231,6 +243,7 @@ class Processor:
         height = None
         width = None
         price = None
+        identification = None
 
 # Presentation
 
@@ -322,17 +335,19 @@ class Presentation:
               "===================================================")
         print("{:^18}".format("Name"), "{:^18}".format("Package Description"), "{:^18}".format("Dangerous"),
               "{:^18}".format("Weight"), "{:^18}".format("Volume"), "{:^18}".format("Days Until Delivery"),
-              "{:^18}".format("Price"))
+              "{:^18}".format("Price"), "{:^18}".format("Identification"))
         counter = 0
         try:
             for row in big_list:
                 print("{:^18}".format(row["Name"]), "{:^18}".format(row["Package Description"]),
                     "{:^18}".format(row["Dangerous"]), "{:^18}".format(row["Weight"]),
                     "{:^18}".format(row["Volume"]), "{:^18}".format(row["Days Until Delivery"]),
-                    "{:^18}".format(row["Price"]))
+                    "{:^18}".format(row["Price"]), "{:^18}".format(row["Identification"]))
                 counter += 1
         except KeyError:
             print("Key error has occurred, recheck dictionary keys. ")
+        except TypeError:
+            print("Type error has occurred, recheck if all data points are filled correctly in CSV file.")
 
 # Main Body of Script
 Processor.read_data_from_file_master_list()
@@ -357,6 +372,7 @@ while True:
             else:
                 Processor.days_for_delivery()
                 Processor.calculate_best_bookings()
+                Processor.id_number(12)
                 Processor.append_to_master_file()
                 Processor.save_data_to_csv_file()
                 Processor.update_file()
