@@ -7,15 +7,15 @@
 # Jack Kennedy, 06/13/2021, Worked on script
 # ----------------------------------------------------------------------------------- #
 # GOALS
-# Set up Data Structure to save PACKAGE INFO AND OUTCOME to CSV file = Not finished
-# Create process to book ONE PACKAGE, DON"T NEED TO DO SEVERAL!!! = Not Finished
+# Set up Data Structure to save PACKAGE INFO AND OUTCOME to CSV file = COMPLETE
+# Create process to book ONE PACKAGE, DON"T NEED TO DO SEVERAL!!! = COMPLETE
 #           Note: ACTUAL DELIVERY DATE DOES NOT MATTER!!! Either it's below or over 3 days
 # Create a Menus including: 1. Book Quote Package, 2. Display History of Packages, 3. Exit
 #           Note: Project does not call for editing data. Do not need to create script to
 #           extract data to edit booking information. Could be added, not required.
 #           Script only serves one purpose, doesn't need big menu.
 #           Honestly, the history part is only for testing. Don't even need that.
-# Create a set of variables to compare all booking options, then display THE CHEAPEST ONE(S)!!! to user
+# Create a set of variables to compare all booking options, then display THE CHEAPEST ONE(S)!!! to user = COMPLETED
 #           Note: User might be curious to know what the other options are. Not required, but could
 #           add an option at the end to display what all options look like.
 #           ONLY NEED THE CHEAPEST OPTION TO SAVE TO CSV FILE
