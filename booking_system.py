@@ -61,7 +61,7 @@ class Processor:
                           "Dangerous": row["Dangerous"],
                           "Weight": row["Weight"],
                           "Volume": row["Volume"],
-                          "Delivery Date": row["Delivery Date"],
+                          "Days Until Delivery": row["Days Until Delivery"],
                           "Price": row["Price"]}
                 masterList.append(dicRow)
                 line_count += 1
@@ -79,7 +79,7 @@ class Processor:
                   "Dangerous": dangerous,
                   "Weight": weight,
                   "Volume": volume,
-                  "Delivery Date": delDate,
+                  "Day Until Delivery": delDate,
                   "Price": price}
         masterList.append(dicRow)
 
@@ -299,13 +299,13 @@ class Presentation:
         print("\tThis is a history of all booking quotes.\n"
               "===================================================")
         print("{:^18}".format("Name"), "{:^18}".format("Package Description"), "{:^18}".format("Dangerous"),
-              "{:^18}".format("Weight"), "{:^18}".format("Volume"), "{:^18}".format("Delivery Date"),
+              "{:^18}".format("Weight"), "{:^18}".format("Volume"), "{:^18}".format("Days Until Delivery"),
               "{:^18}".format("Price"))
         counter = 0
         for row in big_list:
             print("{:^18}".format(row["Name"]), "{:^18}".format(row["Package Description"]),
                   "{:^18}".format(row["Dangerous"]), "{:^18}".format(row["Weight"]),
-                  "{:^18}".format(row["Volume"]), "{:^18}".format(row["Delivery Date"]),
+                  "{:^18}".format(row["Volume"]), "{:^18}".format(row["Days Until Delivery"]),
                   "{:^18}".format(row["Price"]))
             counter += 1
 
