@@ -67,6 +67,28 @@ class Processor:
                 line_count += 1
 
     @staticmethod
+    def update_file():
+        global masterList
+        global dicRow
+        masterList = []
+        with open('booking_data.csv', mode='r') as csv_file:
+            csv_reader = csv.DictReader(csv_file)
+            line_count = 0
+            for row in csv_reader:
+                if line_count == 0:
+                    print("Updating Employees.csv File...")
+                line_count += 1
+                dicRow = {"Name": row["Name"],
+                          "Package Description": row["Package Description"],
+                          "Dangerous": row["Dangerous"],
+                          "Weight": row["Weight"],
+                          "Volume": row["Volume"],
+                          "Days Until Delivery": row["Days Until Delivery"],
+                          "Price": row["Price"]}
+                masterList.append(dicRow)
+                line_count += 1
+
+    @staticmethod
     def append_to_master_file():
         global name
         global packageD
@@ -164,10 +186,10 @@ class Processor:
         air = max(air_options)
         if dangerous == "yes" and delDate < 3:
             print("Booking quote is flat rate $45 by Truck")
-            price = 45
+            price = 45.0
         if dangerous == "yes" and delDate >= 3:
             print("Booking quote is flat rate $25 by Truck")
-            price = 25
+            price = 25.0
         if dangerous == "no" and delDate < 3:
             words = "Booking quote is ${} by Air"
             print(words.format(air))
@@ -302,12 +324,15 @@ class Presentation:
               "{:^18}".format("Weight"), "{:^18}".format("Volume"), "{:^18}".format("Days Until Delivery"),
               "{:^18}".format("Price"))
         counter = 0
-        for row in big_list:
-            print("{:^18}".format(row["Name"]), "{:^18}".format(row["Package Description"]),
-                  "{:^18}".format(row["Dangerous"]), "{:^18}".format(row["Weight"]),
-                  "{:^18}".format(row["Volume"]), "{:^18}".format(row["Days Until Delivery"]),
-                  "{:^18}".format(row["Price"]))
-            counter += 1
+        try:
+            for row in big_list:
+                print("{:^18}".format(row["Name"]), "{:^18}".format(row["Package Description"]),
+                    "{:^18}".format(row["Dangerous"]), "{:^18}".format(row["Weight"]),
+                    "{:^18}".format(row["Volume"]), "{:^18}".format(row["Days Until Delivery"]),
+                    "{:^18}".format(row["Price"]))
+                counter += 1
+        except KeyError:
+            print("Key error has occurred, recheck dictionary keys. ")
 
 # Main Body of Script
 Processor.read_data_from_file_master_list()
@@ -334,6 +359,7 @@ while True:
                 Processor.calculate_best_bookings()
                 Processor.append_to_master_file()
                 Processor.save_data_to_csv_file()
+                Processor.update_file()
                 Processor.reset()
 
     if strChoice.strip() == "2":
